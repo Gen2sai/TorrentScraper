@@ -4,40 +4,51 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Support.UI;
+using NHtmlUnit;
+using NHtmlUnit.Html;
 
 namespace TorrentScraper.Class_Library
 {
     class HorribleSubs
     {
-        public void fetchAnimeList()
+        public Dictionary<string, string> fetchAnimeList()
         {
-            using (var driver = new ChromeDriver(@"c:\users\yt.chong\documents\visual studio 2013\Projects\TorrentScraper\TorrentScraper"))
+
+            //ip and port points to fiddler for webClient.
+            WebClient webClient = new WebClient(BrowserVersion.CHROME,"127.0.0.1", 8888)
             {
-                driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(120));
-                driver.Navigate().GoToUrl("http://horriblesubs.info/shows/");
+                JavaScriptEnabled = true,
+                ThrowExceptionOnScriptError = false,
+                ThrowExceptionOnFailingStatusCode = false,
+                CssEnabled = false
+            };
 
-                Thread.Sleep(10000);
+            webClient.WaitForBackgroundJavaScript(10000);
 
-                //WebDriverWait wait = new WebDriverWait(driver, new TimeSpan(10));
-                //wait.Until(x => ((IJavaScriptExecutor)driver).ExecuteScript("return document.readyState").Equals("complete"));
+            HtmlPage tempPage = (HtmlPage) webClient.GetPage("http://horriblesubs.info/shows/");
 
-                string htmlPage = driver.PageSource;
-                Dictionary<string, string> animeDictionary = new Dictionary<string, string>();
+            //wait for 5.25 seconds before reloading the page and fetch full page.
+            Thread.Sleep(5250);
 
-                if (!String.IsNullOrEmpty(htmlPage))
+            webClient.Options.JavaScriptEnabled = false;
+            HtmlPage Page = (HtmlPage)webClient.GetPage("http://horriblesubs.info/shows/");
+
+            string htmlPage = Page.WebResponse.ContentAsString;
+
+            Dictionary<string, string> animeDictionary = new Dictionary<string, string>();
+
+            if (!String.IsNullOrEmpty(htmlPage))
+            {
+                string pattern = "<div class=\"ind-show linkful\"><a href=\"(?<url>.*?)\" title=\"(?<title>.*?)\">[\\s\\S].*?</a></div>";
+                
+                MatchCollection m = Regex.Matches(htmlPage, pattern);
+
+                foreach (Match match in m)
                 {
-                    string pattern = "<div class=\"ind-show linkful\"><a href=\"(?<url>.*?)\"[\\s\\S].*?>(?<title>.*?)</a></div>";
-                    MatchCollection m = Regex.Matches(htmlPage, pattern);
-
-                    foreach(Match match in m)
-                    {
-                        animeDictionary.Add(match.Groups["title"].Value, match.Groups["url"].Value);
-                    }
+                    animeDictionary.Add(match.Groups["title"].Value, match.Groups["url"].Value);
                 }
             }
+            return animeDictionary;
         }
     }
 }
