@@ -35,6 +35,7 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.HorribleSubsWorker = new System.ComponentModel.BackgroundWorker();
+            this.btnDL = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -81,6 +82,7 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.btnDL);
             this.groupBox3.Controls.Add(this.textBox1);
             this.groupBox3.Location = new System.Drawing.Point(589, 12);
             this.groupBox3.Name = "groupBox3";
@@ -100,6 +102,15 @@
             // 
             this.HorribleSubsWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.HorribleSubsWorker_DoWork);
             this.HorribleSubsWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.HorribleSubsWorker_RunWorkerCompleted);
+            // 
+            // btnDL
+            // 
+            this.btnDL.Location = new System.Drawing.Point(288, 412);
+            this.btnDL.Name = "btnDL";
+            this.btnDL.Size = new System.Drawing.Size(75, 23);
+            this.btnDL.TabIndex = 1;
+            this.btnDL.Text = "Go";
+            this.btnDL.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -130,6 +141,7 @@
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.TextBox textBox1;
         private System.ComponentModel.BackgroundWorker HorribleSubsWorker;
+        private System.Windows.Forms.Button btnDL;
     }
 }
 

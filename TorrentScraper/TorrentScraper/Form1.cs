@@ -55,6 +55,7 @@ namespace TorrentScraper
 
         private void btnHorribleSubs_Click(object sender, EventArgs e)
         {
+            disableUsage();
             form.StartPosition = FormStartPosition.Manual;
             form.Location = new Point(this.Location.X + (this.Width - form.Width) / 2, this.Location.Y + (this.Height - form.Height) / 2);
             form.Show();
@@ -63,6 +64,7 @@ namespace TorrentScraper
             HorribleSubsWorker.RunWorkerAsync();
 
             lastClickedSite = (int)siteEnum.HorribleSubs;
+            
         }
 
         private void HorribleSubsWorker_DoWork(object sender, DoWorkEventArgs e)
@@ -77,6 +79,7 @@ namespace TorrentScraper
         {
             //populate dataGrid with dictionary from DoWork bgworker
             populateDataGrid((Dictionary<string, string>)e.Result);
+            enableUsage();
             form.Close();
         }
     }
