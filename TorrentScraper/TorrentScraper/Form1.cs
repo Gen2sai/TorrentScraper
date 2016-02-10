@@ -15,6 +15,7 @@ namespace TorrentScraper
         private int lastClickedSite;
         private string tempURL;
         LoadingForm form = new LoadingForm();
+        HorribleSubs horribleSubs = new HorribleSubs();
 
         public Form1()
         {
@@ -70,8 +71,6 @@ namespace TorrentScraper
 
         private void HorribleSubsWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            HorribleSubs horribleSubs = new HorribleSubs();
-
             //this fetches the result and passes it to RunWorkerCompleted
             e.Result = horribleSubs.fetchAnimeList();
         }
@@ -96,6 +95,20 @@ namespace TorrentScraper
                         break;
                 }
             }
+        }
+
+        private void btnCheck_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(tempURL))
+            {
+                switch (lastClickedSite)
+                {
+                    case (int)siteEnum.HorribleSubs:
+                        horribleSubs.GetEpisodes(tempURL);
+                        break;
+                }
+            }
+
         }
     }
 }
