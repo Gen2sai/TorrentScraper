@@ -50,5 +50,7 @@ namespace TorrentScraper.Class_Library
             }
             return animeDictionary;
         }
+
+        //public Dictionary<string>
     }
 }

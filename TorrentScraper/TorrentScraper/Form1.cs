@@ -13,6 +13,7 @@ namespace TorrentScraper
     public partial class Form1 : Form
     {
         private int lastClickedSite;
+        private string tempURL;
         LoadingForm form = new LoadingForm();
 
         public Form1()
@@ -20,21 +21,21 @@ namespace TorrentScraper
             InitializeComponent();
         }
 
-        private void disableUsage()
+        private void DisableUsage()
         {
             groupBox1.Enabled = false;
             groupBox3.Enabled = false;
             groupBox3.Enabled = false;
         }
 
-        private void enableUsage()
+        private void EnableUsage()
         {
             groupBox1.Enabled = true;
             groupBox3.Enabled = true;
             groupBox3.Enabled = true;
         }
 
-        private void populateDataGrid(Dictionary<string, string> AnimeListing)
+        private void PopulateDataGrid(Dictionary<string, string> AnimeListing)
         {
             //reset datagridview and source
             dataGridView1.DataSource = null;
@@ -44,7 +45,7 @@ namespace TorrentScraper
             dataGridView1.Dock = DockStyle.Fill;
             dataGridView1.DataSource = (from show in AnimeListing
                                         orderby show.Key
-                                        select new {show.Key, show.Value}).ToList();
+                                        select new { show.Key, show.Value }).ToList();
 
             //hide url column
             dataGridView1.Columns[1].Visible = false;
@@ -55,7 +56,7 @@ namespace TorrentScraper
 
         private void btnHorribleSubs_Click(object sender, EventArgs e)
         {
-            disableUsage();
+            DisableUsage();
             form.StartPosition = FormStartPosition.Manual;
             form.Location = new Point(this.Location.X + (this.Width - form.Width) / 2, this.Location.Y + (this.Height - form.Height) / 2);
             form.Show();
@@ -64,13 +65,13 @@ namespace TorrentScraper
             HorribleSubsWorker.RunWorkerAsync();
 
             lastClickedSite = (int)siteEnum.HorribleSubs;
-            
+
         }
 
         private void HorribleSubsWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             HorribleSubs horribleSubs = new HorribleSubs();
-            
+
             //this fetches the result and passes it to RunWorkerCompleted
             e.Result = horribleSubs.fetchAnimeList();
         }
@@ -78,9 +79,23 @@ namespace TorrentScraper
         private void HorribleSubsWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             //populate dataGrid with dictionary from DoWork bgworker
-            populateDataGrid((Dictionary<string, string>)e.Result);
-            enableUsage();
+            PopulateDataGrid((Dictionary<string, string>)e.Result);
+            EnableUsage();
             form.Close();
+        }
+
+        private void dataGridView1_SelectionChanged(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow row in dataGridView1.SelectedRows)
+            {
+                textBox1.Text = row.Cells[0].Value.ToString();
+                switch (lastClickedSite)
+                {
+                    case (int)siteEnum.HorribleSubs:
+                        tempURL = "http://horriblesubs.info/" + row.Cells[1].Value.ToString();
+                        break;
+                }
+            }
         }
     }
 }
