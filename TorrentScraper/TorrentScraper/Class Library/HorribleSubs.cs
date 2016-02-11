@@ -14,7 +14,16 @@ namespace TorrentScraper.Class_Library
     class HorribleSubs
     {
         //ip and port points to fiddler for webClient.
-        WebClient webClient = new WebClient(BrowserVersion.CHROME, "127.0.0.1", 8888)
+        //WebClient webClient = new WebClient(BrowserVersion.CHROME, "127.0.0.1", 8888)
+        //{
+        //    JavaScriptEnabled = true,
+        //    ThrowExceptionOnScriptError = false,
+        //    ThrowExceptionOnFailingStatusCode = false,
+        //    CssEnabled = false,
+        //};
+
+        //Without running with fiddler.
+        WebClient webClient = new WebClient(BrowserVersion.CHROME)
         {
             JavaScriptEnabled = true,
             ThrowExceptionOnScriptError = false,
@@ -95,8 +104,6 @@ namespace TorrentScraper.Class_Library
                     }
                 }
 
-                
-                
                 if(LowRes.Count > 0)
                 {
                     EpisodeDictionary.Add("LowRes", LowRes);

@@ -153,6 +153,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class Library\HorribleSubs.cs" />
+    <Compile Include="Enum\ResolutionEnum.cs" />
     <Compile Include="Enum\SiteEnum.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
