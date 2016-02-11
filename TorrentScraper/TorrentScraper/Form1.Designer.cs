@@ -40,16 +40,25 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.HorribleSubsWorker = new System.ComponentModel.BackgroundWorker();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.lblStatus = new System.Windows.Forms.Label();
+            this.btnHiRes = new System.Windows.Forms.Button();
+            this.btnMidRes = new System.Windows.Forms.Button();
+            this.btnLowRes = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
             this.btnFilePath = new System.Windows.Forms.Button();
             this.txtFilePath = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.label2 = new System.Windows.Forms.Label();
-            this.btnLowRes = new System.Windows.Forms.Button();
-            this.btnMidRes = new System.Windows.Forms.Button();
-            this.btnHiRes = new System.Windows.Forms.Button();
             this.CheckingWorker = new System.ComponentModel.BackgroundWorker();
-            this.lblStatus = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.txtTorrentPath = new System.Windows.Forms.TextBox();
+            this.btnTorrentPath = new System.Windows.Forms.Button();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.label4 = new System.Windows.Forms.Label();
+            this.btnTorLowRes = new System.Windows.Forms.Button();
+            this.btnTorMidRes = new System.Windows.Forms.Button();
+            this.btnTorHiRes = new System.Windows.Forms.Button();
+            this.lblTorStatus = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -163,6 +172,14 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.lblTorStatus);
+            this.groupBox4.Controls.Add(this.btnTorHiRes);
+            this.groupBox4.Controls.Add(this.btnTorMidRes);
+            this.groupBox4.Controls.Add(this.btnTorLowRes);
+            this.groupBox4.Controls.Add(this.label4);
+            this.groupBox4.Controls.Add(this.btnTorrentPath);
+            this.groupBox4.Controls.Add(this.txtTorrentPath);
+            this.groupBox4.Controls.Add(this.label3);
             this.groupBox4.Controls.Add(this.lblStatus);
             this.groupBox4.Controls.Add(this.btnHiRes);
             this.groupBox4.Controls.Add(this.btnMidRes);
@@ -173,10 +190,59 @@
             this.groupBox4.Controls.Add(this.label1);
             this.groupBox4.Location = new System.Drawing.Point(589, 128);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(363, 325);
+            this.groupBox4.Size = new System.Drawing.Size(363, 319);
             this.groupBox4.TabIndex = 4;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "DownloadList";
+            // 
+            // lblStatus
+            // 
+            this.lblStatus.AutoSize = true;
+            this.lblStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblStatus.Location = new System.Drawing.Point(297, 71);
+            this.lblStatus.Name = "lblStatus";
+            this.lblStatus.Size = new System.Drawing.Size(60, 20);
+            this.lblStatus.TabIndex = 7;
+            this.lblStatus.Text = "Done...";
+            // 
+            // btnHiRes
+            // 
+            this.btnHiRes.Location = new System.Drawing.Point(282, 45);
+            this.btnHiRes.Name = "btnHiRes";
+            this.btnHiRes.Size = new System.Drawing.Size(75, 23);
+            this.btnHiRes.TabIndex = 6;
+            this.btnHiRes.Text = "[1080p]";
+            this.btnHiRes.UseVisualStyleBackColor = true;
+            this.btnHiRes.Click += new System.EventHandler(this.btnHiRes_Click);
+            // 
+            // btnMidRes
+            // 
+            this.btnMidRes.Location = new System.Drawing.Point(185, 45);
+            this.btnMidRes.Name = "btnMidRes";
+            this.btnMidRes.Size = new System.Drawing.Size(75, 23);
+            this.btnMidRes.TabIndex = 5;
+            this.btnMidRes.Text = "[720p]";
+            this.btnMidRes.UseVisualStyleBackColor = true;
+            this.btnMidRes.Click += new System.EventHandler(this.btnMidRes_Click);
+            // 
+            // btnLowRes
+            // 
+            this.btnLowRes.Location = new System.Drawing.Point(89, 45);
+            this.btnLowRes.Name = "btnLowRes";
+            this.btnLowRes.Size = new System.Drawing.Size(75, 23);
+            this.btnLowRes.TabIndex = 4;
+            this.btnLowRes.Text = "[480p]";
+            this.btnLowRes.UseVisualStyleBackColor = true;
+            this.btnLowRes.Click += new System.EventHandler(this.btnLowRes_Click);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(9, 50);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(74, 13);
+            this.label2.TabIndex = 3;
+            this.label2.Text = "Write to Text :";
             // 
             // btnFilePath
             // 
@@ -204,59 +270,89 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "FilePath :";
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(9, 50);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(74, 13);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "Write to Text :";
-            // 
-            // btnLowRes
-            // 
-            this.btnLowRes.Location = new System.Drawing.Point(89, 45);
-            this.btnLowRes.Name = "btnLowRes";
-            this.btnLowRes.Size = new System.Drawing.Size(75, 23);
-            this.btnLowRes.TabIndex = 4;
-            this.btnLowRes.Text = "[480p]";
-            this.btnLowRes.UseVisualStyleBackColor = true;
-            this.btnLowRes.Click += new System.EventHandler(this.btnLowRes_Click);
-            // 
-            // btnMidRes
-            // 
-            this.btnMidRes.Location = new System.Drawing.Point(185, 45);
-            this.btnMidRes.Name = "btnMidRes";
-            this.btnMidRes.Size = new System.Drawing.Size(75, 23);
-            this.btnMidRes.TabIndex = 5;
-            this.btnMidRes.Text = "[720p]";
-            this.btnMidRes.UseVisualStyleBackColor = true;
-            this.btnMidRes.Click += new System.EventHandler(this.btnMidRes_Click);
-            // 
-            // btnHiRes
-            // 
-            this.btnHiRes.Location = new System.Drawing.Point(282, 45);
-            this.btnHiRes.Name = "btnHiRes";
-            this.btnHiRes.Size = new System.Drawing.Size(75, 23);
-            this.btnHiRes.TabIndex = 6;
-            this.btnHiRes.Text = "[1080p]";
-            this.btnHiRes.UseVisualStyleBackColor = true;
-            this.btnHiRes.Click += new System.EventHandler(this.btnHiRes_Click);
-            // 
             // CheckingWorker
             // 
             this.CheckingWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.CheckingWorker_DoWork);
             this.CheckingWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.CheckingWorker_RunWorkerCompleted);
             // 
-            // lblStatus
+            // label3
             // 
-            this.lblStatus.AutoSize = true;
-            this.lblStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblStatus.Location = new System.Drawing.Point(297, 71);
-            this.lblStatus.Name = "lblStatus";
-            this.lblStatus.Size = new System.Drawing.Size(60, 20);
-            this.lblStatus.TabIndex = 7;
-            this.lblStatus.Text = "Done...";
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(10, 100);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(73, 13);
+            this.label3.TabIndex = 8;
+            this.label3.Text = "UtorrentPath :";
+            // 
+            // txtTorrentPath
+            // 
+            this.txtTorrentPath.Location = new System.Drawing.Point(89, 97);
+            this.txtTorrentPath.Name = "txtTorrentPath";
+            this.txtTorrentPath.Size = new System.Drawing.Size(230, 20);
+            this.txtTorrentPath.TabIndex = 9;
+            // 
+            // btnTorrentPath
+            // 
+            this.btnTorrentPath.Location = new System.Drawing.Point(325, 94);
+            this.btnTorrentPath.Name = "btnTorrentPath";
+            this.btnTorrentPath.Size = new System.Drawing.Size(32, 23);
+            this.btnTorrentPath.TabIndex = 10;
+            this.btnTorrentPath.Text = "...";
+            this.btnTorrentPath.UseVisualStyleBackColor = true;
+            this.btnTorrentPath.Click += new System.EventHandler(this.btnTorrentPath_Click);
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(10, 128);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(80, 13);
+            this.label4.TabIndex = 11;
+            this.label4.Text = "Push to Torrent";
+            // 
+            // btnTorLowRes
+            // 
+            this.btnTorLowRes.Location = new System.Drawing.Point(89, 123);
+            this.btnTorLowRes.Name = "btnTorLowRes";
+            this.btnTorLowRes.Size = new System.Drawing.Size(75, 23);
+            this.btnTorLowRes.TabIndex = 12;
+            this.btnTorLowRes.Text = "[480p]";
+            this.btnTorLowRes.UseVisualStyleBackColor = true;
+            this.btnTorLowRes.Click += new System.EventHandler(this.btnTorLowRes_Click);
+            // 
+            // btnTorMidRes
+            // 
+            this.btnTorMidRes.Location = new System.Drawing.Point(185, 122);
+            this.btnTorMidRes.Name = "btnTorMidRes";
+            this.btnTorMidRes.Size = new System.Drawing.Size(75, 23);
+            this.btnTorMidRes.TabIndex = 13;
+            this.btnTorMidRes.Text = "[720p]";
+            this.btnTorMidRes.UseVisualStyleBackColor = true;
+            this.btnTorMidRes.Click += new System.EventHandler(this.btnTorMidRes_Click);
+            // 
+            // btnTorHiRes
+            // 
+            this.btnTorHiRes.Location = new System.Drawing.Point(282, 122);
+            this.btnTorHiRes.Name = "btnTorHiRes";
+            this.btnTorHiRes.Size = new System.Drawing.Size(75, 23);
+            this.btnTorHiRes.TabIndex = 14;
+            this.btnTorHiRes.Text = "[1080p]";
+            this.btnTorHiRes.UseVisualStyleBackColor = true;
+            this.btnTorHiRes.Click += new System.EventHandler(this.btnTorHiRes_Click);
+            // 
+            // lblTorStatus
+            // 
+            this.lblTorStatus.AutoSize = true;
+            this.lblTorStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTorStatus.Location = new System.Drawing.Point(275, 148);
+            this.lblTorStatus.Name = "lblTorStatus";
+            this.lblTorStatus.Size = new System.Drawing.Size(82, 20);
+            this.lblTorStatus.TabIndex = 15;
+            this.lblTorStatus.Text = "Pushing ...";
             // 
             // Form1
             // 
@@ -306,6 +402,15 @@
         private System.Windows.Forms.Label label2;
         private System.ComponentModel.BackgroundWorker CheckingWorker;
         private System.Windows.Forms.Label lblStatus;
+        private System.Windows.Forms.Button btnTorrentPath;
+        private System.Windows.Forms.TextBox txtTorrentPath;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.Label lblTorStatus;
+        private System.Windows.Forms.Button btnTorHiRes;
+        private System.Windows.Forms.Button btnTorMidRes;
+        private System.Windows.Forms.Button btnTorLowRes;
+        private System.Windows.Forms.Label label4;
     }
 }
 

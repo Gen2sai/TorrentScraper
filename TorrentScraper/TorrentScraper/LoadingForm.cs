@@ -12,7 +12,7 @@ namespace TorrentScraper
             //FormBorderStyle = FormBorderStyle.None;
             ControlBox = false;
             ShowIcon = false;
-            pictureBox1.ImageLocation = @"C:\Users\yt.chong\Desktop\GitHub\TorrentScraper\TorrentScraper\TorrentScraper\img\loading.gif";
+            pictureBox1.Image = Properties.Resources.loading;
             Timer t = new Timer();
             t.Tick += new EventHandler(loadingText);
             t.Interval = 1000;

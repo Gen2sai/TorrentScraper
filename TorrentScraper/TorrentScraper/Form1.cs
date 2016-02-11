@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using TorrentScraper.Class_Library;
 using TorrentScraper.Enum;
@@ -30,6 +31,7 @@ namespace TorrentScraper
             InitializeComponent();
             groupBox4.Enabled = false;
             lblStatus.Text = "";
+            lblTorStatus.Text = "";
         }
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
@@ -118,7 +120,7 @@ namespace TorrentScraper
         private void btnFilePath_Click(object sender, EventArgs e)
         {
             folderBrowserDialog1.Description = "Path to save magnet links";
-            if(folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+            if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
             {
                 txtFilePath.Text = folderBrowserDialog1.SelectedPath;
             }
@@ -126,7 +128,7 @@ namespace TorrentScraper
 
         private void writeToText(int resolutionValue)
         {
-            if(txtFilePath.TextLength > 0)
+            if (txtFilePath.TextLength > 0)
             {
                 using (StreamWriter sw = new StreamWriter(txtFilePath.Text + "\\" + lastCheckedAnime + " episode magnet links.txt"))
                 {
@@ -158,30 +160,96 @@ namespace TorrentScraper
             }
         }
 
+        private void pushToTorrent(int resolutionValue)
+        {
+            if (txtTorrentPath.TextLength > 0)
+            {
+                switch(resolutionValue)
+                {
+                    case (int)resolutionEnum.LowRes:
+                        Parallel.ForEach(EpisodeDictionary["LowRes"], magnetLink =>
+                            {
+                                Process.Start(txtTorrentPath.Text, magnetLink.Value);
+                            });
+                        break;
+                    case (int)resolutionEnum.MidRes:
+                        Parallel.ForEach(EpisodeDictionary["MidRes"], magnetLink =>
+                        {
+                            Process.Start(txtTorrentPath.Text, magnetLink.Value);
+                        });
+                        break;
+                    case (int)resolutionEnum.HiRes:
+                        Parallel.ForEach(EpisodeDictionary["HiRes"], magnetLink =>
+                        {
+                            Process.Start(txtTorrentPath.Text, magnetLink.Value);
+                        });
+                        break;
+                }
+            }
+        }
+
         private void btnLowRes_Click(object sender, EventArgs e)
         {
             lblStatus.Text = "";
             writeToText((int)resolutionEnum.LowRes);
-            statusChangeTicker();
+            StatusChange();
         }
 
         private void btnMidRes_Click(object sender, EventArgs e)
         {
             lblStatus.Text = "";
             writeToText((int)resolutionEnum.MidRes);
-            statusChangeTicker();
+            StatusChange();
         }
 
         private void btnHiRes_Click(object sender, EventArgs e)
         {
             lblStatus.Text = "";
             writeToText((int)resolutionEnum.HiRes);
-            statusChangeTicker();
+            StatusChange();
         }
 
-        private void statusChangeTicker()
+        private void btnTorLowRes_Click(object sender, EventArgs e)
+        {
+            lblStatus.Text = "";
+            pushToTorrent((int)resolutionEnum.LowRes);
+            TorStatusChange();
+        }
+
+        private void btnTorMidRes_Click(object sender, EventArgs e)
+        {
+            lblStatus.Text = "";
+            writeToText((int)resolutionEnum.LowRes);
+            TorStatusChange();
+        }
+
+        private void btnTorHiRes_Click(object sender, EventArgs e)
+        {
+            lblStatus.Text = "";
+            writeToText((int)resolutionEnum.LowRes);
+            TorStatusChange();
+        }
+
+        private void StatusChange()
         {
             lblStatus.Text = "Done...";
+        }
+
+        private void TorStatusChange()
+        {
+            lblTorStatus.Text = "Pushing...";
+        }
+
+        private void btnTorrentPath_Click(object sender, EventArgs e)
+        {
+            openFileDialog1.Title = "Select uTorrent.exe";
+            openFileDialog1.FileName = "uTorrent";
+            openFileDialog1.Filter = "Executable | *.exe";
+            openFileDialog1.Multiselect = false;
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                txtTorrentPath.Text = openFileDialog1.FileName;
+            }
         }
 
         //backgroundwokers
