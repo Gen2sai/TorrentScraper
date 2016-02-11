@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>MonoTorrent</id>
+    <version>0.9.0</version>
+    <title>MonoTorrent</title>
+    <authors>Alan McGovern, Olivier Dufour</authors>
+    <owners>Alan McGovern, Olivier Dufour</owners>
+    <projectUrl>http://www.monotorrent.com/</projectUrl>
+    <iconUrl>http://mono-project.com/skins/MonoWaveWide/images/mp-thumb-mono.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>MonoTorrent is a cross platform and open source implementation of the BitTorrent protocol. It supports many advanced features such as Encryption, DHT, Peer Exchange, Web Seeding and Magnet Links.
+Notable features include:
+-Encryption
+-Dht
+-Peer Exchange (uTorrent style)
+-Local Peer Discovery
+-Web Seeding (getright style)
+-Magnet Links / Metadata download
+-IPV6
+-FAST Extensions
+-Sparse files (NTFS file system)
+-Multi-tracker torrents
+-Compact tracker responses
+-IP Address white listing / black listing
+-Fast Resume
+-Initial Seeding (super seeding)
+-Selective downloading
+-Prioritised downloading
+-Full bittorrent tracker
+-Dynamic request queue size
+-Memory Cache
+-Endgame mode
+-Per torrent and global rate limiting
+-Individual file relocation</description>
+    <summary>MonoTorrent is a cross platform and open source implementation of the BitTorrent protocol. It supports many advanced features such as Encryption, DHT, Peer Exchange, Web Seeding and Magnet Links.</summary>
+    <tags>torrent</tags>
+  </metadata>
+</package>
