@@ -29,9 +29,12 @@ namespace TorrentScraper
         public Form1()
         {
             InitializeComponent();
+            groupBox3.Enabled = false;
             groupBox4.Enabled = false;
+            groupBox5.Enabled = false;
             lblStatus.Text = "";
             lblTorStatus.Text = "";
+            chkListAnime.Items.Clear();
         }
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
@@ -43,14 +46,14 @@ namespace TorrentScraper
         {
             groupBox1.Enabled = false;
             groupBox3.Enabled = false;
-            groupBox3.Enabled = false;
+            groupBox4.Enabled = false;
         }
 
         private void EnableUsage()
         {
             groupBox1.Enabled = true;
             groupBox3.Enabled = true;
-            groupBox3.Enabled = true;
+            groupBox4.Enabled = true;
         }
 
         private void PopulateDataGrid(Dictionary<string, string> AnimeListing)
@@ -103,6 +106,7 @@ namespace TorrentScraper
         {
             lblStatus.Text = "";
             DisableUsage();
+            chkListAnime.Items.Clear();
 
             //reset text and variables for lastcheckedanime
             lastCheckedAnime = textBox1.Text;
@@ -135,24 +139,57 @@ namespace TorrentScraper
                     switch (resolutionValue)
                     {
                         case (int)resolutionEnum.LowRes:
-                            foreach (var magnetLink in EpisodeDictionary["LowRes"])
+                            if (checkBox1.Checked)
                             {
-                                sw.WriteLine(magnetLink.Key);
-                                sw.WriteLine(magnetLink.Value);
+                                foreach (string animeTitle in chkListAnime.CheckedItems)
+                                {
+                                    sw.WriteLine(animeTitle);
+                                    sw.WriteLine(EpisodeDictionary["LowRes"][animeTitle]);
+                                }
+                            }
+                            else
+                            {
+                                foreach (var magnetLink in EpisodeDictionary["LowRes"])
+                                {
+                                    sw.WriteLine(magnetLink.Key);
+                                    sw.WriteLine(magnetLink.Value);
+                                }
                             }
                             break;
                         case (int)resolutionEnum.MidRes:
-                            foreach (var magnetLink in EpisodeDictionary["MidRes"])
+                            if (checkBox1.Checked)
                             {
-                                sw.WriteLine(magnetLink.Key);
-                                sw.WriteLine(magnetLink.Value);
+                                foreach (string animeTitle in chkListAnime.CheckedItems)
+                                {
+                                    sw.WriteLine(animeTitle);
+                                    sw.WriteLine(EpisodeDictionary["MidRes"][animeTitle]);
+                                }
+                            }
+                            else
+                            {
+                                foreach (var magnetLink in EpisodeDictionary["MidRes"])
+                                {
+                                    sw.WriteLine(magnetLink.Key);
+                                    sw.WriteLine(magnetLink.Value);
+                                }
                             }
                             break;
                         case (int)resolutionEnum.HiRes:
-                            foreach (var magnetLink in EpisodeDictionary["HiRes"])
+                            if (checkBox1.Checked)
                             {
-                                sw.WriteLine(magnetLink.Key);
-                                sw.WriteLine(magnetLink.Value);
+                                foreach (string animeTitle in chkListAnime.CheckedItems)
+                                {
+                                    sw.WriteLine(animeTitle);
+                                    sw.WriteLine(EpisodeDictionary["HiRes"][animeTitle]);
+                                }
+                            }
+                            else
+                            {
+                                foreach (var magnetLink in EpisodeDictionary["HiRes"])
+                                {
+                                    sw.WriteLine(magnetLink.Key);
+                                    sw.WriteLine(magnetLink.Value);
+                                }
                             }
                             break;
                     }
@@ -164,25 +201,60 @@ namespace TorrentScraper
         {
             if (txtTorrentPath.TextLength > 0)
             {
-                switch(resolutionValue)
+                List<string> tempList = new List<string>();
+                if (checkBox1.Checked)
+                {
+                    tempList.AddRange(chkListAnime.CheckedItems.Cast<string>());
+                }
+                switch (resolutionValue)
                 {
                     case (int)resolutionEnum.LowRes:
-                        Parallel.ForEach(EpisodeDictionary["LowRes"], magnetLink =>
+                        if (checkBox1.Checked)
+                        {
+                            Parallel.ForEach(tempList, animeTitle =>
+                            {
+                                Process.Start(txtTorrentPath.Text, EpisodeDictionary["LowRes"][animeTitle].ToString());
+                            });
+                        }
+                        else
+                        {
+                            Parallel.ForEach(EpisodeDictionary["LowRes"], magnetLink =>
+                                {
+                                    Process.Start(txtTorrentPath.Text, magnetLink.Value);
+                                });
+                        }
+                        break;
+                    case (int)resolutionEnum.MidRes:
+                        if (checkBox1.Checked)
+                        {
+                            Parallel.ForEach(tempList, animeTitle =>
+                            {
+                                Process.Start(txtTorrentPath.Text, EpisodeDictionary["MidRes"][animeTitle].ToString());
+                            });
+                        }
+                        else
+                        {
+                            Parallel.ForEach(EpisodeDictionary["MidRes"], magnetLink =>
                             {
                                 Process.Start(txtTorrentPath.Text, magnetLink.Value);
                             });
-                        break;
-                    case (int)resolutionEnum.MidRes:
-                        Parallel.ForEach(EpisodeDictionary["MidRes"], magnetLink =>
-                        {
-                            Process.Start(txtTorrentPath.Text, magnetLink.Value);
-                        });
+                        }
                         break;
                     case (int)resolutionEnum.HiRes:
-                        Parallel.ForEach(EpisodeDictionary["HiRes"], magnetLink =>
+                        if (checkBox1.Checked)
                         {
-                            Process.Start(txtTorrentPath.Text, magnetLink.Value);
-                        });
+                            Parallel.ForEach(tempList, animeTitle =>
+                            {
+                                Process.Start(txtTorrentPath.Text, EpisodeDictionary["HiRes"][animeTitle].ToString());
+                            });
+                        }
+                        else
+                        {
+                            Parallel.ForEach(EpisodeDictionary["HiRes"], magnetLink =>
+                            {
+                                Process.Start(txtTorrentPath.Text, magnetLink.Value);
+                            });
+                        }
                         break;
                 }
             }
@@ -190,6 +262,7 @@ namespace TorrentScraper
 
         private void btnLowRes_Click(object sender, EventArgs e)
         {
+
             lblStatus.Text = "";
             writeToText((int)resolutionEnum.LowRes);
             StatusChange();
@@ -219,14 +292,14 @@ namespace TorrentScraper
         private void btnTorMidRes_Click(object sender, EventArgs e)
         {
             lblStatus.Text = "";
-            writeToText((int)resolutionEnum.LowRes);
+            pushToTorrent((int)resolutionEnum.MidRes);
             TorStatusChange();
         }
 
         private void btnTorHiRes_Click(object sender, EventArgs e)
         {
             lblStatus.Text = "";
-            writeToText((int)resolutionEnum.LowRes);
+            pushToTorrent((int)resolutionEnum.HiRes);
             TorStatusChange();
         }
 
@@ -288,6 +361,7 @@ namespace TorrentScraper
                     if (EpisodeDictionary.Count > 0)
                     {
                         groupBox4.Enabled = true;
+                        groupBox5.Enabled = true;
                         btnLowRes.Enabled = false;
                         btnMidRes.Enabled = false;
                         btnHiRes.Enabled = false;
@@ -296,16 +370,28 @@ namespace TorrentScraper
                         {
                             btnLowRes.Enabled = true;
                             lblLowRes.Text = "Number of [480p] episodes (Magnet Link) =\t" + EpisodeDictionary["LowRes"].Count;
+                            foreach (string lowResEp in EpisodeDictionary["LowRes"].Keys)
+                            {
+                                chkListAnime.Items.Add(lowResEp);
+                            }
                         }
                         if (EpisodeDictionary.ContainsKey("MidRes"))
                         {
                             btnMidRes.Enabled = true;
                             lblMidRes.Text = "Number of [720p] episodes (Magnet Link) =\t" + EpisodeDictionary["MidRes"].Count;
+                            foreach (string midResEp in EpisodeDictionary["MidRes"].Keys)
+                            {
+                                chkListAnime.Items.Add(midResEp);
+                            }
                         }
                         if (EpisodeDictionary.ContainsKey("HiRes"))
                         {
                             btnHiRes.Enabled = true;
                             lblHiRes.Text = "Number of [1080p] episodes (Magnet Link) =\t" + EpisodeDictionary["HiRes"].Count;
+                            foreach (string HiResEp in EpisodeDictionary["HiRes"].Keys)
+                            {
+                                chkListAnime.Items.Add(HiResEp);
+                            }
                         }
                     }
                     else if (EpisodeDictionary.Count == 0)
@@ -313,12 +399,25 @@ namespace TorrentScraper
                         lblLowRes.Text = "Number of [480p] episodes (Magnet Link) =\t 0";
                         lblMidRes.Text = "Number of [720p] episodes (Magnet Link) =\t 0";
                         lblHiRes.Text = "Number of [1080p] episodes (Magnet Link) =\t 0";
+                        chkListAnime.Items.Clear();
                     }
                     break;
             }
 
             EnableUsage();
             form.Hide();
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox1.Checked)
+            {
+                chkListAnime.Enabled = true;
+            }
+            else
+            {
+                chkListAnime.Enabled = false;
+            }
         }
     }
 }

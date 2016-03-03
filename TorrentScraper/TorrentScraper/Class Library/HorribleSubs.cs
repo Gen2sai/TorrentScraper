@@ -16,7 +16,7 @@ namespace TorrentScraper.Class_Library
         //ip and port points to fiddler for webClient.
         //WebClient webClient = new WebClient(BrowserVersion.CHROME, "127.0.0.1", 8888)
         //{
-        //    JavaScriptEnabled = true,
+        //    JavaScriptEnabled = false,
         //    ThrowExceptionOnScriptError = false,
         //    ThrowExceptionOnFailingStatusCode = false,
         //    CssEnabled = false,
@@ -25,7 +25,7 @@ namespace TorrentScraper.Class_Library
         //Without running with fiddler.
         WebClient webClient = new WebClient(BrowserVersion.CHROME)
         {
-            JavaScriptEnabled = true,
+            JavaScriptEnabled = false,
             ThrowExceptionOnScriptError = false,
             ThrowExceptionOnFailingStatusCode = false,
             CssEnabled = false,
@@ -33,14 +33,15 @@ namespace TorrentScraper.Class_Library
 
         public Dictionary<string, string> fetchAnimeList()
         {
-            webClient.WaitForBackgroundJavaScript(10000);
+            //there is no more cloudflare
+            //webClient.WaitForBackgroundJavaScript(10000);
 
-            HtmlPage tempPage = (HtmlPage) webClient.GetPage("http://horriblesubs.info/shows/");
+            //HtmlPage tempPage = (HtmlPage)webClient.GetPage("http://horriblesubs.info/shows/");
 
-            //wait for 5.25 seconds before reloading the page and fetch full page.
-            Thread.Sleep(5250);
+            ////wait for 5.25 seconds before reloading the page and fetch full page.
+            //Thread.Sleep(5250);
 
-            webClient.Options.JavaScriptEnabled = false;
+            //webClient.Options.JavaScriptEnabled = false;
             HtmlPage Page = (HtmlPage)webClient.GetPage("http://horriblesubs.info/shows/");
 
             string htmlPage = Page.WebResponse.ContentAsString;

@@ -40,6 +40,14 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.HorribleSubsWorker = new System.ComponentModel.BackgroundWorker();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.lblTorStatus = new System.Windows.Forms.Label();
+            this.btnTorHiRes = new System.Windows.Forms.Button();
+            this.btnTorMidRes = new System.Windows.Forms.Button();
+            this.btnTorLowRes = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.btnTorrentPath = new System.Windows.Forms.Button();
+            this.txtTorrentPath = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.lblStatus = new System.Windows.Forms.Label();
             this.btnHiRes = new System.Windows.Forms.Button();
             this.btnMidRes = new System.Windows.Forms.Button();
@@ -50,20 +58,16 @@
             this.label1 = new System.Windows.Forms.Label();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.CheckingWorker = new System.ComponentModel.BackgroundWorker();
-            this.label3 = new System.Windows.Forms.Label();
-            this.txtTorrentPath = new System.Windows.Forms.TextBox();
-            this.btnTorrentPath = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.label4 = new System.Windows.Forms.Label();
-            this.btnTorLowRes = new System.Windows.Forms.Button();
-            this.btnTorMidRes = new System.Windows.Forms.Button();
-            this.btnTorHiRes = new System.Windows.Forms.Button();
-            this.lblTorStatus = new System.Windows.Forms.Label();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.chkListAnime = new System.Windows.Forms.CheckedListBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
+            this.groupBox5.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnHorribleSubs
@@ -188,12 +192,87 @@
             this.groupBox4.Controls.Add(this.btnFilePath);
             this.groupBox4.Controls.Add(this.txtFilePath);
             this.groupBox4.Controls.Add(this.label1);
-            this.groupBox4.Location = new System.Drawing.Point(589, 128);
+            this.groupBox4.Location = new System.Drawing.Point(589, 273);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(363, 319);
+            this.groupBox4.Size = new System.Drawing.Size(363, 180);
             this.groupBox4.TabIndex = 4;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "DownloadList";
+            // 
+            // lblTorStatus
+            // 
+            this.lblTorStatus.AutoSize = true;
+            this.lblTorStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTorStatus.Location = new System.Drawing.Point(275, 148);
+            this.lblTorStatus.Name = "lblTorStatus";
+            this.lblTorStatus.Size = new System.Drawing.Size(82, 20);
+            this.lblTorStatus.TabIndex = 15;
+            this.lblTorStatus.Text = "Pushing ...";
+            // 
+            // btnTorHiRes
+            // 
+            this.btnTorHiRes.Location = new System.Drawing.Point(282, 122);
+            this.btnTorHiRes.Name = "btnTorHiRes";
+            this.btnTorHiRes.Size = new System.Drawing.Size(75, 23);
+            this.btnTorHiRes.TabIndex = 14;
+            this.btnTorHiRes.Text = "[1080p]";
+            this.btnTorHiRes.UseVisualStyleBackColor = true;
+            this.btnTorHiRes.Click += new System.EventHandler(this.btnTorHiRes_Click);
+            // 
+            // btnTorMidRes
+            // 
+            this.btnTorMidRes.Location = new System.Drawing.Point(185, 122);
+            this.btnTorMidRes.Name = "btnTorMidRes";
+            this.btnTorMidRes.Size = new System.Drawing.Size(75, 23);
+            this.btnTorMidRes.TabIndex = 13;
+            this.btnTorMidRes.Text = "[720p]";
+            this.btnTorMidRes.UseVisualStyleBackColor = true;
+            this.btnTorMidRes.Click += new System.EventHandler(this.btnTorMidRes_Click);
+            // 
+            // btnTorLowRes
+            // 
+            this.btnTorLowRes.Location = new System.Drawing.Point(89, 123);
+            this.btnTorLowRes.Name = "btnTorLowRes";
+            this.btnTorLowRes.Size = new System.Drawing.Size(75, 23);
+            this.btnTorLowRes.TabIndex = 12;
+            this.btnTorLowRes.Text = "[480p]";
+            this.btnTorLowRes.UseVisualStyleBackColor = true;
+            this.btnTorLowRes.Click += new System.EventHandler(this.btnTorLowRes_Click);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(10, 128);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(80, 13);
+            this.label4.TabIndex = 11;
+            this.label4.Text = "Push to Torrent";
+            // 
+            // btnTorrentPath
+            // 
+            this.btnTorrentPath.Location = new System.Drawing.Point(325, 94);
+            this.btnTorrentPath.Name = "btnTorrentPath";
+            this.btnTorrentPath.Size = new System.Drawing.Size(32, 23);
+            this.btnTorrentPath.TabIndex = 10;
+            this.btnTorrentPath.Text = "...";
+            this.btnTorrentPath.UseVisualStyleBackColor = true;
+            this.btnTorrentPath.Click += new System.EventHandler(this.btnTorrentPath_Click);
+            // 
+            // txtTorrentPath
+            // 
+            this.txtTorrentPath.Location = new System.Drawing.Point(89, 97);
+            this.txtTorrentPath.Name = "txtTorrentPath";
+            this.txtTorrentPath.Size = new System.Drawing.Size(230, 20);
+            this.txtTorrentPath.TabIndex = 9;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(10, 100);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(73, 13);
+            this.label3.TabIndex = 8;
+            this.label3.Text = "UtorrentPath :";
             // 
             // lblStatus
             // 
@@ -275,90 +354,48 @@
             this.CheckingWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.CheckingWorker_DoWork);
             this.CheckingWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.CheckingWorker_RunWorkerCompleted);
             // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(10, 100);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(73, 13);
-            this.label3.TabIndex = 8;
-            this.label3.Text = "UtorrentPath :";
-            // 
-            // txtTorrentPath
-            // 
-            this.txtTorrentPath.Location = new System.Drawing.Point(89, 97);
-            this.txtTorrentPath.Name = "txtTorrentPath";
-            this.txtTorrentPath.Size = new System.Drawing.Size(230, 20);
-            this.txtTorrentPath.TabIndex = 9;
-            // 
-            // btnTorrentPath
-            // 
-            this.btnTorrentPath.Location = new System.Drawing.Point(325, 94);
-            this.btnTorrentPath.Name = "btnTorrentPath";
-            this.btnTorrentPath.Size = new System.Drawing.Size(32, 23);
-            this.btnTorrentPath.TabIndex = 10;
-            this.btnTorrentPath.Text = "...";
-            this.btnTorrentPath.UseVisualStyleBackColor = true;
-            this.btnTorrentPath.Click += new System.EventHandler(this.btnTorrentPath_Click);
-            // 
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // label4
+            // groupBox5
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(10, 128);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(80, 13);
-            this.label4.TabIndex = 11;
-            this.label4.Text = "Push to Torrent";
+            this.groupBox5.Controls.Add(this.chkListAnime);
+            this.groupBox5.Controls.Add(this.checkBox1);
+            this.groupBox5.Location = new System.Drawing.Point(589, 128);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(357, 139);
+            this.groupBox5.TabIndex = 5;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "DownloadList";
             // 
-            // btnTorLowRes
+            // checkBox1
             // 
-            this.btnTorLowRes.Location = new System.Drawing.Point(89, 123);
-            this.btnTorLowRes.Name = "btnTorLowRes";
-            this.btnTorLowRes.Size = new System.Drawing.Size(75, 23);
-            this.btnTorLowRes.TabIndex = 12;
-            this.btnTorLowRes.Text = "[480p]";
-            this.btnTorLowRes.UseVisualStyleBackColor = true;
-            this.btnTorLowRes.Click += new System.EventHandler(this.btnTorLowRes_Click);
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(12, 19);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(143, 17);
+            this.checkBox1.TabIndex = 0;
+            this.checkBox1.Text = "Enable Download by List";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
-            // btnTorMidRes
+            // chkListAnime
             // 
-            this.btnTorMidRes.Location = new System.Drawing.Point(185, 122);
-            this.btnTorMidRes.Name = "btnTorMidRes";
-            this.btnTorMidRes.Size = new System.Drawing.Size(75, 23);
-            this.btnTorMidRes.TabIndex = 13;
-            this.btnTorMidRes.Text = "[720p]";
-            this.btnTorMidRes.UseVisualStyleBackColor = true;
-            this.btnTorMidRes.Click += new System.EventHandler(this.btnTorMidRes_Click);
-            // 
-            // btnTorHiRes
-            // 
-            this.btnTorHiRes.Location = new System.Drawing.Point(282, 122);
-            this.btnTorHiRes.Name = "btnTorHiRes";
-            this.btnTorHiRes.Size = new System.Drawing.Size(75, 23);
-            this.btnTorHiRes.TabIndex = 14;
-            this.btnTorHiRes.Text = "[1080p]";
-            this.btnTorHiRes.UseVisualStyleBackColor = true;
-            this.btnTorHiRes.Click += new System.EventHandler(this.btnTorHiRes_Click);
-            // 
-            // lblTorStatus
-            // 
-            this.lblTorStatus.AutoSize = true;
-            this.lblTorStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTorStatus.Location = new System.Drawing.Point(275, 148);
-            this.lblTorStatus.Name = "lblTorStatus";
-            this.lblTorStatus.Size = new System.Drawing.Size(82, 20);
-            this.lblTorStatus.TabIndex = 15;
-            this.lblTorStatus.Text = "Pushing ...";
+            this.chkListAnime.CheckOnClick = true;
+            this.chkListAnime.Enabled = false;
+            this.chkListAnime.FormattingEnabled = true;
+            this.chkListAnime.Location = new System.Drawing.Point(12, 39);
+            this.chkListAnime.Name = "chkListAnime";
+            this.chkListAnime.Size = new System.Drawing.Size(339, 94);
+            this.chkListAnime.TabIndex = 1;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(970, 465);
+            this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
@@ -374,6 +411,8 @@
             this.groupBox3.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -411,6 +450,9 @@
         private System.Windows.Forms.Button btnTorMidRes;
         private System.Windows.Forms.Button btnTorLowRes;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.CheckedListBox chkListAnime;
+        private System.Windows.Forms.CheckBox checkBox1;
     }
 }
 
