@@ -152,6 +152,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Class Library\DameDesuYo.cs" />
     <Compile Include="Class Library\HorribleSubs.cs" />
     <Compile Include="Enum\ResolutionEnum.cs" />
     <Compile Include="Enum\SiteEnum.cs" />

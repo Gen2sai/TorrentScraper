@@ -8,5 +8,6 @@ namespace TorrentScraper.Enum
     public enum siteEnum
     {
         HorribleSubs = 0,
+        damedesuyo = 1,
     }
 }

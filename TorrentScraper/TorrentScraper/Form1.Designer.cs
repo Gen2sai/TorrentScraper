@@ -30,6 +30,7 @@
         {
             this.btnHorribleSubs = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btndamedesuyo = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -60,8 +61,9 @@
             this.CheckingWorker = new System.ComponentModel.BackgroundWorker();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.chkListAnime = new System.Windows.Forms.CheckedListBox();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.damedesuyoWorker = new System.ComponentModel.BackgroundWorker();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -82,6 +84,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.btndamedesuyo);
             this.groupBox1.Controls.Add(this.btnHorribleSubs);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
@@ -89,6 +92,16 @@
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "SiteListing";
+            // 
+            // btndamedesuyo
+            // 
+            this.btndamedesuyo.Location = new System.Drawing.Point(6, 45);
+            this.btndamedesuyo.Name = "btndamedesuyo";
+            this.btndamedesuyo.Size = new System.Drawing.Size(75, 23);
+            this.btndamedesuyo.TabIndex = 1;
+            this.btndamedesuyo.Text = "damedesuyo";
+            this.btndamedesuyo.UseVisualStyleBackColor = true;
+            this.btndamedesuyo.Click += new System.EventHandler(this.btndamedesuyo_Click);
             // 
             // groupBox2
             // 
@@ -369,6 +382,16 @@
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "DownloadList";
             // 
+            // chkListAnime
+            // 
+            this.chkListAnime.CheckOnClick = true;
+            this.chkListAnime.Enabled = false;
+            this.chkListAnime.FormattingEnabled = true;
+            this.chkListAnime.Location = new System.Drawing.Point(12, 39);
+            this.chkListAnime.Name = "chkListAnime";
+            this.chkListAnime.Size = new System.Drawing.Size(339, 94);
+            this.chkListAnime.TabIndex = 1;
+            // 
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
@@ -380,15 +403,10 @@
             this.checkBox1.UseVisualStyleBackColor = true;
             this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
-            // chkListAnime
+            // damedesuyoWorker
             // 
-            this.chkListAnime.CheckOnClick = true;
-            this.chkListAnime.Enabled = false;
-            this.chkListAnime.FormattingEnabled = true;
-            this.chkListAnime.Location = new System.Drawing.Point(12, 39);
-            this.chkListAnime.Name = "chkListAnime";
-            this.chkListAnime.Size = new System.Drawing.Size(339, 94);
-            this.chkListAnime.TabIndex = 1;
+            this.damedesuyoWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.damedesuyoWorker_DoWork);
+            this.damedesuyoWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.damedesuyoWorker_RunWorkerCompleted);
             // 
             // Form1
             // 
@@ -453,6 +471,8 @@
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.CheckedListBox chkListAnime;
         private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.Button btndamedesuyo;
+        private System.ComponentModel.BackgroundWorker damedesuyoWorker;
     }
 }
 

@@ -5,6 +5,8 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TorrentScraper.Class_Library;
@@ -25,6 +27,7 @@ namespace TorrentScraper
         //form object declaration
         LoadingForm form = new LoadingForm();
         HorribleSubs horribleSubs = new HorribleSubs();
+        DameDesuYo dameDesuYo = new DameDesuYo();
 
         public Form1()
         {
@@ -85,6 +88,9 @@ namespace TorrentScraper
                     case (int)siteEnum.HorribleSubs:
                         tempURL = "http://horriblesubs.info/" + row.Cells[1].Value.ToString();
                         break;
+                    case (int)siteEnum.damedesuyo:
+                        tempURL = row.Cells[1].Value.ToString();
+                        break;
                 }
             }
         }
@@ -100,6 +106,19 @@ namespace TorrentScraper
             HorribleSubsWorker.RunWorkerAsync();
 
             lastClickedSite = (int)siteEnum.HorribleSubs;
+        }
+
+        private void btndamedesuyo_Click(object sender, EventArgs e)
+        {
+            DisableUsage();
+            form.StartPosition = FormStartPosition.Manual;
+            form.Location = new Point(this.Location.X + (this.Width - form.Width) / 2, this.Location.Y + (this.Height - form.Height) / 2);
+            form.Show();
+
+            //run processes
+            damedesuyoWorker.RunWorkerAsync();
+
+            lastClickedSite = (int)siteEnum.damedesuyo;
         }
 
         private void btnCheck_Click(object sender, EventArgs e)
@@ -213,15 +232,55 @@ namespace TorrentScraper
                         {
                             Parallel.ForEach(tempList, animeTitle =>
                             {
-                                Process.Start(txtTorrentPath.Text, EpisodeDictionary["LowRes"][animeTitle].ToString());
+                                if (EpisodeDictionary["LowRes"][animeTitle].ToString().ToLower().Contains("magnet:"))
+                                {
+                                    Process.Start(txtTorrentPath.Text, EpisodeDictionary["LowRes"][animeTitle].ToString());
+                                }
+                                else
+                                {
+                                    WebClient webClient = new WebClient();
+
+                                    //apparently needed to get file name from url header
+                                    var data = webClient.DownloadData("http://" + EpisodeDictionary["LowRes"][animeTitle].ToString());
+                                    string name = webClient.ResponseHeaders["Content-Disposition"].Substring(webClient.ResponseHeaders["Content-Disposition"].IndexOf("filename=") + 10).Replace("\"", "").Trim();
+
+                                    webClient.DownloadFile("http://" + EpisodeDictionary["LowRes"][animeTitle].ToString(), name);
+                                    Process.Start(name);
+                                }
                             });
                         }
                         else
                         {
+                            //List<string> removeList = new List<string>();
                             Parallel.ForEach(EpisodeDictionary["LowRes"], magnetLink =>
+                            {
+                                if (magnetLink.ToString().ToLower().Contains("magnet:"))
                                 {
                                     Process.Start(txtTorrentPath.Text, magnetLink.Value);
-                                });
+                                }
+                                else
+                                {
+                                    WebClient webClient = new WebClient();
+
+                                    //apparently needed to get file name from url header
+                                    var data = webClient.DownloadData(magnetLink.Value);
+                                    string name = webClient.ResponseHeaders["Content-Disposition"].Substring(webClient.ResponseHeaders["Content-Disposition"].IndexOf("filename=") + 10).Replace("\"", "").Trim();
+
+                                    webClient.DownloadFile(magnetLink.Value, name);
+                                    Process.Start(name);
+                                    //removeList.Add(name);
+
+                                    //sleeps thread when adding torrent. If removed this might cause torrent to be deleted before added to torrent client.
+                                    //Thread.Sleep(2000);
+                                }
+                            });
+                            //if (removeList.Count > 0)
+                            //{
+                            //    foreach (string name in removeList)
+                            //    {
+                            //        File.Delete(name);
+                            //    }
+                            //}
                         }
                         break;
                     case (int)resolutionEnum.MidRes:
@@ -229,15 +288,55 @@ namespace TorrentScraper
                         {
                             Parallel.ForEach(tempList, animeTitle =>
                             {
-                                Process.Start(txtTorrentPath.Text, EpisodeDictionary["MidRes"][animeTitle].ToString());
+                                if (EpisodeDictionary["MidRes"][animeTitle].ToString().ToLower().Contains("magnet:"))
+                                {
+                                    Process.Start(txtTorrentPath.Text, EpisodeDictionary["MidRes"][animeTitle].ToString());
+                                }
+                                else
+                                {
+                                    WebClient webClient = new WebClient();
+
+                                    //apparently needed to get file name from url header
+                                    var data = webClient.DownloadData("http://" + EpisodeDictionary["MidRes"][animeTitle].ToString());
+                                    string name = webClient.ResponseHeaders["Content-Disposition"].Substring(webClient.ResponseHeaders["Content-Disposition"].IndexOf("filename=") + 10).Replace("\"", "").Trim();
+
+                                    webClient.DownloadFile("http://" + EpisodeDictionary["MidRes"][animeTitle].ToString(), name);
+                                    Process.Start(name);
+                                }
                             });
                         }
                         else
                         {
+                            //List<string> removeList = new List<string>();
                             Parallel.ForEach(EpisodeDictionary["MidRes"], magnetLink =>
                             {
-                                Process.Start(txtTorrentPath.Text, magnetLink.Value);
+                                if (magnetLink.ToString().ToLower().Contains("magnet:"))
+                                {
+                                    Process.Start(txtTorrentPath.Text, magnetLink.Value);
+                                }
+                                else
+                                {
+                                    WebClient webClient = new WebClient();
+
+                                    //apparently needed to get file name from url header
+                                    var data = webClient.DownloadData(magnetLink.Value);
+                                    string name = webClient.ResponseHeaders["Content-Disposition"].Substring(webClient.ResponseHeaders["Content-Disposition"].IndexOf("filename=") + 10).Replace("\"", "").Trim();
+
+                                    webClient.DownloadFile(magnetLink.Value, name);
+                                    Process.Start(name);
+                                    //removeList.Add(name);
+
+                                    //sleeps thread when adding torrent. If removed this might cause torrent to be deleted before added to torrent client.
+                                    //Thread.Sleep(2000);
+                                }
                             });
+                            //if (removeList.Count > 0)
+                            //{
+                            //    foreach (string name in removeList)
+                            //    {
+                            //        File.Delete(name);
+                            //    }
+                            //}
                         }
                         break;
                     case (int)resolutionEnum.HiRes:
@@ -245,15 +344,56 @@ namespace TorrentScraper
                         {
                             Parallel.ForEach(tempList, animeTitle =>
                             {
-                                Process.Start(txtTorrentPath.Text, EpisodeDictionary["HiRes"][animeTitle].ToString());
+                                if (EpisodeDictionary["HiRes"][animeTitle].ToString().ToLower().Contains("magnet:"))
+                                {
+                                    Process.Start(txtTorrentPath.Text, EpisodeDictionary["HiRes"][animeTitle].ToString());
+                                }
+                                else
+                                {
+                                    WebClient webClient = new WebClient();
+
+                                    //apparently needed to get file name from url header
+                                    var data = webClient.DownloadData("http://" + EpisodeDictionary["HiRes"][animeTitle].ToString());
+                                    string name = webClient.ResponseHeaders["Content-Disposition"].Substring(webClient.ResponseHeaders["Content-Disposition"].IndexOf("filename=") + 10).Replace("\"", "").Trim();
+
+                                    webClient.DownloadFile("http://" + EpisodeDictionary["HiRes"][animeTitle].ToString(), name);
+                                    Process.Start(name);
+                                }
                             });
                         }
                         else
                         {
+                            //List<string> removeList = new List<string>();
                             Parallel.ForEach(EpisodeDictionary["HiRes"], magnetLink =>
                             {
-                                Process.Start(txtTorrentPath.Text, magnetLink.Value);
+                                if (magnetLink.ToString().ToLower().Contains("magnet:"))
+                                {
+                                    Process.Start(txtTorrentPath.Text, magnetLink.Value);
+                                }
+                                else
+                                {
+                                    WebClient webClient = new WebClient();
+
+                                    //apparently needed to get file name from url header
+                                    var data = webClient.DownloadData("http://" + magnetLink.Value);
+                                    string name = webClient.ResponseHeaders["Content-Disposition"].Substring(webClient.ResponseHeaders["Content-Disposition"].IndexOf("filename=") + 10).Replace("\"", "").Trim();
+
+                                    webClient.DownloadFile("http://" + magnetLink.Value, name);
+                                    Process.Start(name);
+
+                                    //sleeps thread when adding torrent. If removed this might cause torrent to be deleted before added to torrent client.
+                                    //Thread.Sleep(2000);
+
+                                    //removeList.Add(name);
+                                }
                             });
+                            //if (removeList.Count > 0)
+                            //{
+                            //    foreach (string name in removeList)
+                            //    {
+                            //        File.Delete(name);
+                            //    }
+                            //}
                         }
                         break;
                 }
@@ -340,6 +480,18 @@ namespace TorrentScraper
             form.Hide();
         }
 
+        private void damedesuyoWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            e.Result = dameDesuYo.fetchAnimeList();
+        }
+
+        private void damedesuyoWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            PopulateDataGrid((Dictionary<string, string>)e.Result);
+            EnableUsage();
+            form.Hide();
+        }
+
         private void CheckingWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             if (!string.IsNullOrEmpty(tempURL))
@@ -348,6 +500,9 @@ namespace TorrentScraper
                 {
                     case (int)siteEnum.HorribleSubs:
                         EpisodeDictionary = horribleSubs.GetEpisodes(tempURL);
+                        break;
+                    case (int)siteEnum.damedesuyo:
+                        EpisodeDictionary = dameDesuYo.GetEpisodes(tempURL);
                         break;
                 }
             }
@@ -365,10 +520,14 @@ namespace TorrentScraper
                         btnLowRes.Enabled = false;
                         btnMidRes.Enabled = false;
                         btnHiRes.Enabled = false;
+                        btnTorLowRes.Enabled = false;
+                        btnTorMidRes.Enabled = false;
+                        btnTorHiRes.Enabled = false;
 
                         if (EpisodeDictionary.ContainsKey("LowRes"))
                         {
                             btnLowRes.Enabled = true;
+                            btnTorLowRes.Enabled = true;
                             lblLowRes.Text = "Number of [480p] episodes (Magnet Link) =\t" + EpisodeDictionary["LowRes"].Count;
                             foreach (string lowResEp in EpisodeDictionary["LowRes"].Keys)
                             {
@@ -378,6 +537,7 @@ namespace TorrentScraper
                         if (EpisodeDictionary.ContainsKey("MidRes"))
                         {
                             btnMidRes.Enabled = true;
+                            btnTorMidRes.Enabled = true;
                             lblMidRes.Text = "Number of [720p] episodes (Magnet Link) =\t" + EpisodeDictionary["MidRes"].Count;
                             foreach (string midResEp in EpisodeDictionary["MidRes"].Keys)
                             {
@@ -387,10 +547,89 @@ namespace TorrentScraper
                         if (EpisodeDictionary.ContainsKey("HiRes"))
                         {
                             btnHiRes.Enabled = true;
+                            btnTorHiRes.Enabled = true;
                             lblHiRes.Text = "Number of [1080p] episodes (Magnet Link) =\t" + EpisodeDictionary["HiRes"].Count;
                             foreach (string HiResEp in EpisodeDictionary["HiRes"].Keys)
                             {
                                 chkListAnime.Items.Add(HiResEp);
+                            }
+                        }
+                    }
+                    else if (EpisodeDictionary.Count == 0)
+                    {
+                        lblLowRes.Text = "Number of [480p] episodes (Magnet Link) =\t 0";
+                        lblMidRes.Text = "Number of [720p] episodes (Magnet Link) =\t 0";
+                        lblHiRes.Text = "Number of [1080p] episodes (Magnet Link) =\t 0";
+                        chkListAnime.Items.Clear();
+                    }
+                    break;
+                case (int)siteEnum.damedesuyo:
+                    if (EpisodeDictionary.Count > 0)
+                    {
+                        groupBox4.Enabled = true;
+                        groupBox5.Enabled = true;
+                        btnLowRes.Enabled = false;
+                        btnMidRes.Enabled = false;
+                        btnHiRes.Enabled = false;
+                        btnTorLowRes.Enabled = false;
+                        btnTorMidRes.Enabled = false;
+                        btnTorHiRes.Enabled = false;
+
+                        if (EpisodeDictionary.ContainsKey("LowRes"))
+                        {
+                            btnLowRes.Enabled = true;
+                            btnTorLowRes.Enabled = true;
+                            var first = EpisodeDictionary["LowRes"].First();
+                            if (EpisodeDictionary["LowRes"].Keys.Count == 1 || first.Key.ToLower().Contains("batch"))
+                            {
+                                lblMidRes.Text = "Number of [480p] episodes (Magnet Link) =\t" + " Batch file";
+                                chkListAnime.Items.Add(first.Key);
+                            }
+                            else
+                            {
+                                lblLowRes.Text = "Number of [480p] episodes (Magnet Link) =\t" + EpisodeDictionary["LowRes"].Count;
+                                foreach (string lowResEp in EpisodeDictionary["LowRes"].Keys)
+                                {
+                                    chkListAnime.Items.Add(lowResEp);
+                                }
+                            }
+                        }
+                        if (EpisodeDictionary.ContainsKey("MidRes"))
+                        {
+                            btnMidRes.Enabled = true;
+                            btnTorMidRes.Enabled = true;
+                            var first = EpisodeDictionary["MidRes"].First();
+                            if (EpisodeDictionary["MidRes"].Keys.Count == 1 || first.Key.ToLower().Contains("batch"))
+                            {
+                                lblMidRes.Text = "Number of [720p] episodes (Magnet Link) =\t" + " Batch file";
+                                chkListAnime.Items.Add(first.Key);
+                            }
+                            else
+                            {
+                                lblMidRes.Text = "Number of [720p] episodes (Magnet Link) =\t" + EpisodeDictionary["MidRes"].Count;
+                                foreach (string midResEp in EpisodeDictionary["MidRes"].Keys)
+                                {
+                                    chkListAnime.Items.Add(midResEp);
+                                }
+                            }
+                        }
+                        if (EpisodeDictionary.ContainsKey("HiRes"))
+                        {
+                            btnHiRes.Enabled = true;
+                            btnTorHiRes.Enabled = true;
+                            var first = EpisodeDictionary["HiRes"].First();
+                            if (EpisodeDictionary["HiRes"].Keys.Count == 1 || first.Key.ToLower().Contains("batch"))
+                            {
+                                lblMidRes.Text = "Number of [1080p] episodes (Magnet Link) =\t" + " Batch file";
+                                chkListAnime.Items.Add(first.Key);
+                            }
+                            else
+                            {
+                                lblHiRes.Text = "Number of [1080p] episodes (Magnet Link) =\t" + EpisodeDictionary["HiRes"].Count;
+                                foreach (string HiResEp in EpisodeDictionary["HiRes"].Keys)
+                                {
+                                    chkListAnime.Items.Add(HiResEp);
+                                }
                             }
                         }
                     }
@@ -419,5 +658,6 @@ namespace TorrentScraper
                 chkListAnime.Enabled = false;
             }
         }
+
     }
 }
