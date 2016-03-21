@@ -15,22 +15,22 @@ namespace TorrentScraper.Class_Library
     class DameDesuYo
     {
         //ip and port points to fiddler for webClient.
-        WebClient webClient = new WebClient(BrowserVersion.CHROME, "127.0.0.1", 8888)
-        {
-            JavaScriptEnabled = false,
-            ThrowExceptionOnScriptError = false,
-            ThrowExceptionOnFailingStatusCode = false,
-            CssEnabled = false
-        };
-
-        //Without running with fiddler.
-        //WebClient webClient = new WebClient(BrowserVersion.CHROME)
+        //WebClient webClient = new WebClient(BrowserVersion.CHROME, "127.0.0.1", 8888)
         //{
         //    JavaScriptEnabled = false,
         //    ThrowExceptionOnScriptError = false,
         //    ThrowExceptionOnFailingStatusCode = false,
-        //    CssEnabled = false,
+        //    CssEnabled = false
         //};
+
+        //Without running with fiddler.
+        WebClient webClient = new WebClient(BrowserVersion.CHROME)
+        {
+            JavaScriptEnabled = false,
+            ThrowExceptionOnScriptError = false,
+            ThrowExceptionOnFailingStatusCode = false,
+            CssEnabled = false,
+        };
 
         public Dictionary<string, string> fetchAnimeList()
         {
@@ -46,7 +46,7 @@ namespace TorrentScraper.Class_Library
 
             Parallel.ForEach(htmlStringList, htmlUrl =>
             {
-                WebClient webClient = new WebClient(BrowserVersion.CHROME, "127.0.0.1", 8888)
+                WebClient webClient = new WebClient(BrowserVersion.CHROME)
                 {
                     JavaScriptEnabled = false,
                     ThrowExceptionOnScriptError = false,
@@ -115,7 +115,8 @@ namespace TorrentScraper.Class_Library
             {
                 if (!String.IsNullOrEmpty(htmlPage))
                 {
-                    string pattern = "<tr class=\"trusted tlistrow\"><td class=\"tlisticon\"><a href=\"[\\s\\S].*?\"[\\s\\S].*?</a></td><td class=\"tlistname\"><a href=\"//(?<URL>.*?)\">(?<AnimeTitle>.*?)</a></td>";
+                    //string pattern = "<tr class=\"trusted tlistrow\"><td class=\"tlisticon\"><a href=\"[\\s\\S].*?\"[\\s\\S].*?</a></td><td class=\"tlistname\"><a href=\"//(?<URL>.*?)\">(?<AnimeTitle>.*?)</a></td>";
+                    string pattern = "<td class=\"tlisticon\"><a href=\"[\\s\\S].*?\"[\\s\\S].*?</a></td><td class=\"tlistname\"><a href=\"//(?<URL>.*?)\">(?<AnimeTitle>.*?)</a>";
 
                     MatchCollection m = Regex.Matches(htmlPage, pattern);
 
