@@ -29,13 +29,15 @@ namespace TorrentScraper.Class_Library
 
         public Dictionary<string, string> fetchAnimeList()
         {
-            //there is no more cloudflare
-            webClient.WaitForBackgroundJavaScript(10000);
+#region
+            ////there is no more cloudflare
+            //webClient.WaitForBackgroundJavaScript(10000);
 
-            HtmlPage tempPage = (HtmlPage)webClient.GetPage("http://horriblesubs.info/shows/");
+            //HtmlPage tempPage = (HtmlPage)webClient.GetPage("http://horriblesubs.info/shows/");
 
-            //wait for 5.25 seconds before reloading the page and fetch full page.
-            Thread.Sleep(5250);
+            ////wait for 5.25 seconds before reloading the page and fetch full page.
+            //Thread.Sleep(5250);
+#endregion
 
             webClient.Options.JavaScriptEnabled = false;
 
