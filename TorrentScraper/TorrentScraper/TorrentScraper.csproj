@@ -154,6 +154,7 @@
   <ItemGroup>
     <Compile Include="Class Library\DameDesuYo.cs" />
     <Compile Include="Class Library\HorribleSubs.cs" />
+    <Compile Include="Class Library\TimeHelper.cs" />
     <Compile Include="Enum\ResolutionEnum.cs" />
     <Compile Include="Enum\SiteEnum.cs" />
     <Compile Include="Form1.cs">
