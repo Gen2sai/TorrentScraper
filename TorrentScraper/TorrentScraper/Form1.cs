@@ -465,6 +465,32 @@ namespace TorrentScraper
             }
         }
 
+        private void partialSearch(KeyPressEventArgs e)
+        {
+            if(dataGridView1.Focused == true && dataGridView1.RowCount > 0)
+            {
+                //Partial Search based on keypress and jump to row.
+                if (Char.IsLetterOrDigit(e.KeyChar))
+                {
+                    for (int i = 0; i < dataGridView1.Rows.Count; i++)
+                    {
+                        if (dataGridView1.Rows[i].Cells[0].Value.ToString().StartsWith(e.KeyChar.ToString(), true, null))
+                        {
+                            dataGridView1.CurrentCell = dataGridView1.Rows[i].Cells[0];
+
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+
+        private void dataGridView1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            //event handler when keypress. Will invoke partial search function.
+            partialSearch(e);
+        }
+
         //backgroundwokers
         private void HorribleSubsWorker_DoWork(object sender, DoWorkEventArgs e)
         {
@@ -658,6 +684,7 @@ namespace TorrentScraper
                 chkListAnime.Enabled = false;
             }
         }
+
 
     }
 }
